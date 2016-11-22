@@ -12,7 +12,7 @@ typedef uint64_t hash_t;
 typedef uint_fast64_t fast_hash_t;
 
 namespace detail{
-  hash_t
+  inline hash_t
   fnv_1a(const unsigned char * d, size_t l) {
     fast_hash_t h = 0xcbf29ce484222325ULL;
     while (l--) {
