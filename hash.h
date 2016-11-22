@@ -11,7 +11,7 @@ namespace lace {
 typedef uint64_t hash_t;
 typedef uint_fast64_t fast_hash_t;
 
-namespace {
+namespace detail{
   hash_t
   fnv_1a(const unsigned char * d, size_t l) {
     fast_hash_t h = 0xcbf29ce484222325ULL;
@@ -21,22 +21,22 @@ namespace {
     }
     return h;
   }
-};
+} // namespace detail
 
 template <typename T> hash_t hash(T const &t) {
-  return fnv_1a(reinterpret_cast<const unsigned char *>(&t), sizeof(t));
+  return detail::fnv_1a(reinterpret_cast<const unsigned char *>(&t), sizeof(t));
 }
 
 template <> inline hash_t hash(const char * const &t) {
-  return fnv_1a(reinterpret_cast<const unsigned char *>(t), strlen(t));
+  return detail::fnv_1a(reinterpret_cast<const unsigned char *>(t), strlen(t));
 }
 
 template <> inline hash_t hash(const wchar_t * const &t) {
-  return fnv_1a(reinterpret_cast<const unsigned char *>(t), wcslen(t) * sizeof(wchar_t));
+  return detail::fnv_1a(reinterpret_cast<const unsigned char *>(t), wcslen(t) * sizeof(wchar_t));
 }
 
 template <> inline hash_t hash(std::string const &s) {
-  return fnv_1a(reinterpret_cast<const unsigned char *>(s.data()), s.length());
+  return detail::fnv_1a(reinterpret_cast<const unsigned char *>(s.data()), s.length());
 }
 
 } // namespace lace
