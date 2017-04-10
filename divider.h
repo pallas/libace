@@ -15,7 +15,9 @@ public:
     static const bits_t type_bits = CHAR_BIT * sizeof(type_t);
     typedef __uint128_t type_type_t;
 
-    divider(type_t d = 1) {
+    divider(type_t d = 1) { invert(d); }
+
+    void invert(type_t d) {
         if (0 == d) {
             method = &divider::zero;
             return;
