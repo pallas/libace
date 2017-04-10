@@ -4,8 +4,11 @@
 #include <unistd.h>
 
 uint64_t r(unsigned i) {
-  return i<32 ? uint64_t(1)<<i
-    : i%2 ? rand() : rand() + uint64_t(rand())<<32;
+  uint64_t m = uint64_t(1) << i%64;
+  if (i<64)
+      return m;
+  uint64_t x = rand() + (uint64_t(rand())<<32);
+  return (m-1) & x | m;
 }
 
 int main(int, char*[]) {
