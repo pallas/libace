@@ -7,6 +7,7 @@ copy-and-pasting quite often.
 Includes
 
  * compare --- Generic less-than, equal, greater-than template.
+ * divider --- Implements division-by-constant as multiplication.
  * do_not_copy --- Equivalent to boost::noncopyable.
  * hash --- Generic hash template, implemented as 64-bit FNV-1a.
  * singleton --- Singleton template, instantiates before main.
