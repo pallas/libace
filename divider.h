@@ -46,7 +46,7 @@ public:
         }
 
         method = extended_method(b);
-        magic_number = 1 + q<<1;
+        magic_number = 1 + (q<<1);
 
         type_t rr = r<<1;
         if (rr < r || rr >= d)
