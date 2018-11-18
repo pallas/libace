@@ -21,6 +21,8 @@ public:
     long l() { return jrand48(state); }
     double d() { return erand48(state); }
 
+    unsigned long ul() { return (unsigned long)l(); }
+
     long max() const { return RAND_MAX; }
 
 private:
