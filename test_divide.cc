@@ -11,7 +11,7 @@ uint64_t r(unsigned i) {
   if (i<64)
       return m;
   uint64_t x = rng.l() + (uint64_t(rng.l())<<32);
-  return (m-1) & x | m;
+  return ((m-1) & x) | m;
 }
 
 int main(int, char*[]) {
