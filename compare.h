@@ -8,9 +8,9 @@
 
 namespace lace {
 
-// return -1 if foo < bar
-// return  0 if foo = bar
-// return +1 if foo > bar
+// return negative if foo < bar
+// return zero     if foo = bar
+// return positive if foo > bar
 
 typedef int_fast8_t compare_t;
 
@@ -21,17 +21,17 @@ compare_t compare(T const &foo, T const &bar) {
 
 template <>
 inline compare_t compare(const char * const &foo, const char * const &bar) {
-  return compare<int>(strcmp(foo, bar), 0);
+  return strcmp(foo, bar);
 }
 
 template <>
 inline compare_t compare(const wchar_t * const &foo, const wchar_t * const &bar) {
-  return compare<int>(wcscmp(foo, bar), 0);
+  return wcscmp(foo, bar);
 }
 
 template <>
 inline compare_t compare(std::string const &foo, std::string const &bar) {
-  return compare<int>(foo.compare(bar), 0);
+  return foo.compare(bar);
 }
 
 template <typename T>
