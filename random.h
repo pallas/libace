@@ -18,6 +18,7 @@ public:
 
     random(unsigned short seed[3]) { memcpy(state, seed, sizeof state); }
 
+    bool b() { return l() >= 0; }
     long l() { return jrand48(state); }
     double d() { return erand48(state); }
 
