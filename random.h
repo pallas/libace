@@ -2,6 +2,7 @@
 #define LACE__RANDOM_H
 
 #include "try.h"
+#include "pick.h"
 #include "scoped.h"
 
 #include <cstdio>
@@ -11,8 +12,8 @@ namespace lace {
 
 class random {
 public:
-    random(const char * file = "/dev/urandom") {
-        scoped<FILE, int, ::fclose> fd(TRY_PTR(fopen, file, "rb"));
+    random(const char * file = NULL) {
+        scoped<FILE, int, ::fclose> fd(TRY_PTR(fopen, pick(file, "/dev/urandom"), "rb"));
         TRY(fread, state, sizeof state, 1, fd);
     }
 
