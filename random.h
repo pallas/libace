@@ -8,11 +8,17 @@
 #include <cstdio>
 #include <cstring>
 
+#include <unistd.h>
+
 namespace lace {
 
 class random {
 public:
     random(const char * file = NULL) {
+        if (!file)
+            if (!TRY_ERR(ENOSYS, getentropy, state, sizeof state))
+                return;
+
         scoped<FILE, int, ::fclose> fd(TRY_PTR(fopen, pick(file, "/dev/urandom"), "rb"));
         TRY(fread, state, sizeof state, 1, fd);
     }
