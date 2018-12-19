@@ -19,3 +19,5 @@ install(FILES ${header_files}
 enable_testing()
 add_executable(test_divide test_divide.cc)
 add_test(NAME test_divide COMMAND $<TARGET_FILE:test_divide>)
+add_executable(test_random test_random.cc)
+add_test(NAME test_random COMMAND $<TARGET_FILE:test_random>)
