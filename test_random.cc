@@ -3,6 +3,7 @@
 #include "singleton.h"
 #include <cassert>
 #include <cstdint>
+#include <cstdlib>
 
 lace::random & rng = lace::singleton<lace::random>().instance();
 
