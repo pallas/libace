@@ -11,13 +11,35 @@ endif()
 project(libace)
 add_library(libace INTERFACE)
 
-file(GLOB header_files "*.h")
-install(FILES ${header_files}
-	DESTINATION "include/lace"
+set(${PROJECT_NAME}_HEADERS
+	compare
+	container_of
+	divider
+	do_not_copy
+	hash
+	pick
+	random
+	scoped
+	singleton
+	try
 	)
 
+set(${PROJECT_NAME}_TESTS
+	test_divide
+	test_random
+	)
+
+foreach(header ${${PROJECT_NAME}_HEADERS})
+	install(FILES ${header}.h DESTINATION "include/lace")
+endforeach(header)
+
 enable_testing()
-add_executable(test_divide test_divide.cc)
-add_test(NAME test_divide COMMAND $<TARGET_FILE:test_divide>)
-add_executable(test_random test_random.cc)
-add_test(NAME test_random COMMAND $<TARGET_FILE:test_random>)
+add_custom_target(all_tests)
+foreach(test ${${PROJECT_NAME}_TESTS})
+	add_executable(${test} EXCLUDE_FROM_ALL ${test}.cc)
+	add_test(NAME ${test} COMMAND $<TARGET_FILE:${test}>)
+	add_dependencies(all_tests ${test})
+endforeach(test)
+build_command(CTEST_CUSTOM_PRE_TEST TARGET all_tests)
+string(CONFIGURE \"@CTEST_CUSTOM_PRE_TEST@\" CTEST_CUSTOM_PRE_TEST_QUOTED ESCAPE_QUOTES)
+file(WRITE "${CMAKE_BINARY_DIR}/CTestCustom.cmake" "set(CTEST_CUSTOM_PRE_TEST ${CTEST_CUSTOM_PRE_TEST_QUOTED})" "\n")
