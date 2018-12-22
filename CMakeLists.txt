@@ -17,6 +17,7 @@ set(${PROJECT_NAME}_HEADERS
 	divider
 	do_not_copy
 	hash
+	named_error
 	pick
 	random
 	scoped
