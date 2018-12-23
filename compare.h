@@ -4,6 +4,7 @@
 #include <string>
 #include <cwchar>
 #include <cstring>
+#include <type_traits>
 #include <stdint.h>
 
 namespace lace {
@@ -47,6 +48,23 @@ template <typename T>
 compare_t reverse_compare(const T foo, const T bar) {
   return -compare(foo, bar);
 }
+
+#define COMPARABLE_LT(T) \
+  namespace lace { inline compare_t compare(T const &foo, T const &bar) { return (bar<foo)-(foo<bar); } }; \
+  bool operator!= (T const &foo, T const &bar) { return lace::compare(foo,bar) != 0; }; \
+  bool operator<= (T const &foo, T const &bar) { return lace::compare(foo,bar) <= 0; }; \
+  bool operator== (T const &foo, T const &bar) { return lace::compare(foo,bar) == 0; }; \
+  bool operator>= (T const &foo, T const &bar) { return lace::compare(foo,bar) >= 0; }; \
+  bool operator>  (T const &foo, T const &bar) { return lace::compare(foo,bar) >  0; }; \
+
+#define COMPARABLE(T,CMP) \
+  namespace lace { inline compare_t compare(T const &foo, T const &bar) { return foo.CMP(bar); } }; \
+  bool operator!= (T const &foo, T const &bar) { return lace::compare(foo,bar) != 0; }; \
+  bool operator<  (T const &foo, T const &bar) { return lace::compare(foo,bar) <  0; }; \
+  bool operator<= (T const &foo, T const &bar) { return lace::compare(foo,bar) <= 0; }; \
+  bool operator== (T const &foo, T const &bar) { return lace::compare(foo,bar) == 0; }; \
+  bool operator>= (T const &foo, T const &bar) { return lace::compare(foo,bar) >= 0; }; \
+  bool operator>  (T const &foo, T const &bar) { return lace::compare(foo,bar) >  0; }; \
 
 } // namespace lace
 
