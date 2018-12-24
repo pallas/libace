@@ -21,14 +21,21 @@ int main(int, char*[]) {
   assert(lace::hash<uint32_t>(1) != lace::hash<uint32_t>(2));
   assert(lace::hash<uint64_t>(1) != lace::hash<uint64_t>(2));
 
+  assert(lace::hash<const char *>("a") == lace::hash<const char *>("a"));
+  assert(lace::hash<const char *>("a") != lace::hash<const char *>("b"));
+
+  char c[] = "a";
+  assert(lace::hash<const char *>("a") == lace::hash<char *>(c));
+
   assert(lace::hash("a") == lace::hash("a"));
-  assert(lace::hash("a") != lace::hash("b"));
+  assert(lace::hash(L"a") == lace::hash(L"a"));
+  assert(lace::hash(L"a") != lace::hash("a"));
 
-  assert(lace::hash("a") == lace::hash(std::string("a")));
-  assert(lace::hash("a") != lace::hash(std::string("b")));
+  assert(lace::hash<const char *>("a") == lace::hash(std::string("a")));
+  assert(lace::hash<const char *>("a") != lace::hash(std::string("b")));
 
-  assert(lace::hash(std::string("a")) == lace::hash(std::string("a")));
-  assert(lace::hash(std::string("a")) != lace::hash(std::string("b")));
+  assert(lace::hash<std::string>(std::string("a")) == lace::hash<const std::string>(std::string("a")));
+  assert(lace::hash<std::string>(std::string("a")) != lace::hash<std::string>(("b")));
 
   std::string A("A");
   std::string aa("aa");
