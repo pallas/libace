@@ -15,56 +15,77 @@ namespace lace {
 
 typedef int_fast8_t compare_t;
 
-template <typename T>
-inline typename std::enable_if<std::is_arithmetic<T>::value, compare_t>::type
-compare(const T &foo, const T &bar) {
-  return foo - bar;
-}
+namespace detail {
+  template <typename T, bool = std::is_arithmetic<T>::value> struct comparer;
 
-template <typename T>
-inline typename std::enable_if<!std::is_arithmetic<T>::value, compare_t>::type
-compare(const T &foo, const T &bar) {
-  return (bar<foo) - (foo<bar);
-}
+  template <typename T>
+  struct comparer<T, true> {
+    inline compare_t operator() (T foo, T bar) { return foo - bar; }
+  };
 
-inline compare_t compare(const char * foo, const char * bar) {
-  return strcmp(foo, bar);
-}
+  template <typename T>
+  struct comparer<T, false> {
+    inline compare_t operator() (T foo, T bar) { return (bar<foo) - (foo<bar); }
+  };
 
-inline compare_t compare(const wchar_t * foo, const wchar_t * bar) {
-  return wcscmp(foo, bar);
-}
+  template <>
+  struct comparer<const char *> {
+    inline compare_t operator() (const char * foo, const char * bar) const {
+      return strcmp(foo, bar);
+    }
+  };
+  template <> struct comparer<char *> : public comparer<const char *> { };
 
-inline compare_t compare(const std::string &foo, const std::string &bar) {
-  return foo.compare(bar);
-}
+  template <>
+  struct comparer<const wchar_t *> {
+    inline compare_t operator() (const wchar_t * foo, const wchar_t * bar) const {
+      return wcscmp(foo, bar);
+    }
+  };
+  template <> struct comparer<wchar_t *> : public comparer<const wchar_t *> { };
 
-template <typename T>
-compare_t reverse_compare(const T &foo, const T &bar) {
-  return -compare(foo, bar);
-}
+  template <>
+  struct comparer<const std::string> {
+    inline compare_t operator() (const std::string &foo, const std::string &bar) const {
+      return foo.compare(bar);
+    }
+  };
+  template <> struct comparer<std::string> : public comparer<const std::string> { };
 
-template <typename T>
-compare_t reverse_compare(const T foo, const T bar) {
-  return -compare(foo, bar);
-}
+} // namespace detail
 
-#define COMPARABLE_LT(T) \
-  namespace lace { inline compare_t compare(T const &foo, T const &bar) { return (bar<foo)-(foo<bar); } }; \
-  bool operator!= (T const &foo, T const &bar) { return lace::compare(foo,bar) != 0; }; \
-  bool operator<= (T const &foo, T const &bar) { return lace::compare(foo,bar) <= 0; }; \
-  bool operator== (T const &foo, T const &bar) { return lace::compare(foo,bar) == 0; }; \
-  bool operator>= (T const &foo, T const &bar) { return lace::compare(foo,bar) >= 0; }; \
-  bool operator>  (T const &foo, T const &bar) { return lace::compare(foo,bar) >  0; }; \
+template <typename T> inline compare_t compare(const T &foo, const T &bar) { return detail::comparer<typename std::decay<T>::type>()(foo,bar); }
+template <typename T> inline compare_t reverse_compare(const T &foo, const T &bar) { return -compare(foo,bar); }
 
-#define COMPARABLE(T,CMP) \
-  namespace lace { inline compare_t compare(T const &foo, T const &bar) { return foo.CMP(bar); } }; \
-  bool operator!= (T const &foo, T const &bar) { return lace::compare(foo,bar) != 0; }; \
-  bool operator<  (T const &foo, T const &bar) { return lace::compare(foo,bar) <  0; }; \
-  bool operator<= (T const &foo, T const &bar) { return lace::compare(foo,bar) <= 0; }; \
-  bool operator== (T const &foo, T const &bar) { return lace::compare(foo,bar) == 0; }; \
-  bool operator>= (T const &foo, T const &bar) { return lace::compare(foo,bar) >= 0; }; \
-  bool operator>  (T const &foo, T const &bar) { return lace::compare(foo,bar) >  0; }; \
+#define LACE_COMPARE_OPERATOR(T,O) \
+  bool operator O (T const &foo, T const &bar) { return lace::compare(foo,bar) O 0; };
+
+#define LACE_COMPARABLE_LT(T) \
+  namespace lace { namespace detail { \
+    template <> struct comparer<const T> { \
+      inline compare_t operator() (const T &foo, const T &bar) const { return (bar<foo)-(foo<bar); } \
+    }; \
+    template <> struct comparer<typename std::remove_const<T>::type> : public comparer<const T> { }; \
+  } } \
+  LACE_COMPARE_OPERATOR(T,!=); \
+  LACE_COMPARE_OPERATOR(T,<=); \
+  LACE_COMPARE_OPERATOR(T,==); \
+  LACE_COMPARE_OPERATOR(T,>=); \
+  LACE_COMPARE_OPERATOR(T,> ); \
+
+#define LACE_COMPARABLE(T, CMP) \
+  namespace lace { namespace detail { \
+    template <> struct comparer<const T> { \
+      inline compare_t operator() (const T &foo, const T &bar) const { return foo.CMP(bar); } \
+    }; \
+    template <> struct comparer<typename std::remove_const<T>::type> : public comparer<const T> { }; \
+  } } \
+  LACE_COMPARE_OPERATOR(T,!=); \
+  LACE_COMPARE_OPERATOR(T,< ); \
+  LACE_COMPARE_OPERATOR(T,<=); \
+  LACE_COMPARE_OPERATOR(T,==); \
+  LACE_COMPARE_OPERATOR(T,>=); \
+  LACE_COMPARE_OPERATOR(T,> ); \
 
 } // namespace lace
 

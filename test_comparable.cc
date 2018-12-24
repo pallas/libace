@@ -8,7 +8,7 @@ struct nodeX {
 private:
   int x;
 };
-COMPARABLE(nodeX, cmp);
+LACE_COMPARABLE(nodeX, cmp);
 
 struct nodeLT {
   nodeLT(int xx) : x(xx) { }
@@ -16,7 +16,7 @@ struct nodeLT {
 private:
   int x;
 };
-COMPARABLE_LT(nodeLT);
+LACE_COMPARABLE_LT(nodeLT);
 
 template <typename T> void test() {
   assert( (T(-1) != T(+1)) );
