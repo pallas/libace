@@ -28,6 +28,7 @@ set(${PROJECT_NAME}_HEADERS
 set(${PROJECT_NAME}_TESTS
 	test_comparable
 	test_divide
+	test_hash
 	test_random
 	)
 
