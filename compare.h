@@ -15,27 +15,29 @@ namespace lace {
 typedef int_fast8_t compare_t;
 
 template <typename T>
-compare_t compare(T const &foo, T const &bar) {
+inline compare_t compare(const T foo, const T bar) {
   return (bar<foo) - (foo<bar);
 }
 
-template <>
-inline compare_t compare(const char * const &foo, const char * const &bar) {
+inline compare_t compare(const char * foo, const char * bar) {
   return strcmp(foo, bar);
 }
 
-template <>
-inline compare_t compare(const wchar_t * const &foo, const wchar_t * const &bar) {
+inline compare_t compare(const wchar_t * foo, const wchar_t * bar) {
   return wcscmp(foo, bar);
 }
 
-template <>
-inline compare_t compare(std::string const &foo, std::string const &bar) {
+inline compare_t compare(const std::string &foo, const std::string &bar) {
   return foo.compare(bar);
 }
 
 template <typename T>
-compare_t reverse_compare(T const &foo, T const &bar) {
+compare_t reverse_compare(const T &foo, const T &bar) {
+  return -compare(foo, bar);
+}
+
+template <typename T>
+compare_t reverse_compare(const T foo, const T bar) {
   return -compare(foo, bar);
 }
 
