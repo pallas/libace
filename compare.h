@@ -17,13 +17,13 @@ typedef int_fast8_t compare_t;
 
 template <typename T>
 inline typename std::enable_if<std::is_arithmetic<T>::value, compare_t>::type
-compare(const T foo, const T bar) {
+compare(const T &foo, const T &bar) {
   return foo - bar;
 }
 
 template <typename T>
 inline typename std::enable_if<!std::is_arithmetic<T>::value, compare_t>::type
-compare(const T foo, const T bar) {
+compare(const T &foo, const T &bar) {
   return (bar<foo) - (foo<bar);
 }
 
