@@ -58,7 +58,7 @@ template <typename T> inline compare_t compare(const T &foo, const T &bar) { ret
 template <typename T> inline compare_t reverse_compare(const T &foo, const T &bar) { return -compare(foo,bar); }
 
 #define LACE_COMPARE_OPERATOR(T,O) \
-  bool operator O (T const &foo, T const &bar) { return lace::compare(foo,bar) O 0; };
+  inline bool operator O (T const &foo, T const &bar) { return lace::compare(foo,bar) O 0; };
 
 #define LACE_COMPARABLE_LT(T) \
   namespace lace { namespace detail { \
