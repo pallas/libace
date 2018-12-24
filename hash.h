@@ -23,19 +23,19 @@ namespace detail{
   }
 } // namespace detail
 
-template <typename T> hash_t hash(T const &t) {
+template <typename T> hash_t hash(const T &t) {
   return detail::fnv_1a(reinterpret_cast<const unsigned char *>(&t), sizeof(t));
 }
 
-template <> inline hash_t hash(const char * const &t) {
+inline hash_t hash(const char * t) {
   return detail::fnv_1a(reinterpret_cast<const unsigned char *>(t), strlen(t));
 }
 
-template <> inline hash_t hash(const wchar_t * const &t) {
+inline hash_t hash(const wchar_t * t) {
   return detail::fnv_1a(reinterpret_cast<const unsigned char *>(t), wcslen(t) * sizeof(wchar_t));
 }
 
-template <> inline hash_t hash(std::string const &s) {
+inline hash_t hash(const std::string &s) {
   return detail::fnv_1a(reinterpret_cast<const unsigned char *>(s.data()), s.length());
 }
 
