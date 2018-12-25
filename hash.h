@@ -60,4 +60,12 @@ template <typename T> inline hash_t hash(const T &t) { return detail::hasher<typ
 
 } // namespace lace
 
+#define LACE_HASHABLE(T, HC) \
+namespace lace { namespace detail { \
+  template <> struct hasher<const T> { \
+    inline hash_t operator() (const T &s) const { return s.HC(); } \
+  }; \
+  template <> struct hasher<typename std::remove_const<T>::type> : public hasher<const T> { }; \
+} }
+
 #endif//LACE__HASH_H
