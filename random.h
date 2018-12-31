@@ -9,6 +9,7 @@
 #include <cstring>
 
 #include <unistd.h>
+#include <sys/random.h>
 
 namespace lace {
 
