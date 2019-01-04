@@ -12,6 +12,7 @@ public:
     ~scoped() { if (p) D(p); }
 
     operator T* const () const { return p; }
+    T* operator->() const { return p; }
 
     T* reset(T* r = NULL) {
         std::swap(r, p);
