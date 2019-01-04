@@ -3,10 +3,12 @@
 
 #include <algorithm>
 
+#include <lace/do_not_copy.h>
+
 namespace lace {
 
 template <typename T, typename R, R (*D)(T*)>
-class scoped {
+class scoped : public lace::do_not_copy {
 public:
     scoped(T* _) : p(_) { }
     ~scoped() { if (p) D(p); }
