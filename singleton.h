@@ -6,7 +6,7 @@
 namespace lace {
 
 template <class T>
-class singleton : public do_not_copy {
+class singleton : public lace::do_not_copy {
 public:
   static T & instance() {
     instantiate();
