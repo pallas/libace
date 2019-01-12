@@ -20,7 +20,7 @@ namespace detail {
 
   template <typename T>
   struct comparer<T, true> {
-    inline compare_t operator() (T foo, T bar) { return foo - bar; }
+    inline compare_t operator() (T foo, T bar) { return (bar<foo) - (foo<bar); }
   };
 
   template <typename T>
