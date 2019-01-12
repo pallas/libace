@@ -19,13 +19,13 @@ public:
 
     bool empty() { return obstack_empty_p(&_); }
 
-    auto & chunk_size() { return obstack_chunk_size(&_); }
-    auto & alignment_mask() { return obstack_alignment_mask(&_); }
-    auto memory_used() { return obstack_memory_used(&_); }
+    long & chunk_size() { return obstack_chunk_size(&_); }
+    int & alignment_mask() { return obstack_alignment_mask(&_); }
+    int memory_used() { return obstack_memory_used(&_); }
 
     void clear() {
-        auto cs = chunk_size();
-        auto am = alignment_mask();
+        long cs = chunk_size();
+        int am = alignment_mask();
         deallocate(NULL);
         obstack_specify_allocation(&_, cs, am, xmalloc, xfree);
     }
@@ -48,9 +48,9 @@ public:
     T* copy0(const T &t) { return reinterpret_cast<T*>(copy0(&t, sizeof(t))); }
 
     void* base() { return obstack_base(&_); }
-    auto size() { return obstack_object_size(&_); }
+    int size() { return obstack_object_size(&_); }
     void* next() { return obstack_next_free(&_); }
-    auto room() { return obstack_room(&_); }
+    int room() { return obstack_room(&_); }
 
     void* finish() { return obstack_finish(&_); }
     void abort() { obstack_free(&_, finish()); }
