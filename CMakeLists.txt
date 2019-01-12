@@ -17,6 +17,7 @@ set(${PROJECT_NAME}_HEADERS
 	divider
 	do_not_copy
 	hash
+	haystack
 	named_error
 	pick
 	random
@@ -29,6 +30,7 @@ set(${PROJECT_NAME}_TESTS
 	test_comparable
 	test_divide
 	test_hash
+	test_haystack
 	test_random
 	)
 
