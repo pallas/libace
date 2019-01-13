@@ -23,6 +23,12 @@ public:
     int & alignment_mask() { return obstack_alignment_mask(&_); }
     int memory_used() { return obstack_memory_used(&_); }
 
+    ::size_t alignment() {
+        int a = alignment_mask() + 1;
+        assert(0 == (a & (a-1)));
+        return a;
+    }
+
     void clear() {
         long cs = chunk_size();
         int am = alignment_mask();
@@ -33,14 +39,20 @@ public:
     void* allocate(::size_t s) { return obstack_alloc(&_, s); }
 
     template <typename T>
-    T* allocate() { return reinterpret_cast<T*>(allocate(sizeof(T))); }
+    T* allocate() {
+        assert(alignof(T) <= alignment());
+        return reinterpret_cast<T*>(allocate(sizeof(T)));
+    }
 
     void deallocate(void* p) { return obstack_free(&_, p); }
 
     void* copy(const void* a, ::size_t s) { return obstack_copy(&_, a, s); }
 
     template <typename T>
-    T* copy(const T &t) { return reinterpret_cast<T*>(copy(&t, sizeof(t))); }
+    T* copy(const T &t) {
+        assert(alignof(T) <= alignment());
+        return reinterpret_cast<T*>(copy(&t, sizeof(t)));
+    }
 
     void* copy0(const void* a, ::size_t s) { return obstack_copy0(&_, a, s); }
 
@@ -66,7 +78,10 @@ public:
     }
 
     template <typename T>
-    T* blank() { return reinterpret_cast<T*>(blank(sizeof(T))); }
+    T* blank() {
+        assert(alignof(T) <= alignment());
+        return reinterpret_cast<T*>(blank(sizeof(T)));
+    }
 
     haystack&
     shrink(::size_t s) {
