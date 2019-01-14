@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <cstdlib>
 
-lace::random & rng = lace::singleton<lace::random>().instance();
+lace::random & rng = lace::singleton<lace::random>::instance();
 
 int main(int, char*[]) {
   for (int i = 0 ; i < 1<<10 ; ++i) {

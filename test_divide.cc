@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <cstdlib>
 
-lace::random & rng = lace::singleton<lace::random>().instance();
+lace::random & rng = lace::singleton<lace::random>::instance();
 
 uint64_t r(unsigned i) {
   uint64_t m = uint64_t(1) << i%64;
