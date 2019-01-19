@@ -145,6 +145,37 @@ public:
         return *this;
     }
 
+    haystack& quote(const char *s) { return quote(s, strlen(s)); }
+
+    haystack&
+    quote(const char *s, ::size_t l) {
+        while (l > 0) {
+            if (::size_t o = strcspn(s, "'")) {
+                want(l + 2 + 3);
+                assert(room() >= o + 2);
+                obstack_1grow_fast(&_, '\'');
+                memcpy(next(), s, o);
+                obstack_blank_fast(&_, o);
+                obstack_1grow_fast(&_, '\'');
+                s += o;
+                l -= o;
+            } else {
+                want(l + 3);
+            }
+            if (l && *s) {
+                assert(room() >= 3);
+                obstack_1grow_fast(&_, '"');
+                obstack_1grow_fast(&_, *s);
+                obstack_1grow_fast(&_, '"');
+                s += 1;
+                l -= 1;
+            } else {
+                break;
+            }
+        }
+        return *this;
+    }
+
 private:
     struct ::obstack _;
     static void * xmalloc(::size_t s) { return operator new(s); }

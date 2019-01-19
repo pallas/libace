@@ -28,5 +28,20 @@ int main(int, char*[]) {
       << expect("abcxyz", os.printf("%s%s", "abc", "xyz").zero().pad(os.room()).finish()) << std::endl;
   os.clear();
 
+  std::cout
+      << expect("\"'\"\"'\"'\"\"'\"'\"\"'\"", os.quote("''\"\"''").string()) << std::endl
+      << expect("'\"\"'\"'\"\"'\"'\"\"'", os.quote("\"\"''\"\"").string()) << std::endl
+      << expect("\"'\"'\"'\"'\"", os.quote("'\"'").string()) << std::endl
+      << expect("'\"'\"'\"'\"'", os.quote("\"'\"").string()) << std::endl
+      << expect("\"'\"", os.quote("'").string()) << std::endl
+      << expect("'\"'", os.quote("\"").string()) << std::endl
+      << expect("", os.quote("").string()) << std::endl
+      ;
+  os.clear();
+
+  const char evil[] = "'\0'";
+  std::cout << expect("\"'\"", os.quote(evil, sizeof(evil)).string()) << std::endl;
+  os.clear();
+
   return EXIT_SUCCESS;
 }
