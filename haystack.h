@@ -67,6 +67,13 @@ public:
     void* finish() { return obstack_finish(&_); }
     void abort() { obstack_free(&_, finish()); }
 
+    char* string() {
+        int s = size();
+        if (!s || reinterpret_cast<char*>(base())[s])
+            zero();
+        return reinterpret_cast<char*>(finish());
+    }
+
     haystack& want(::size_t w) {
         obstack_make_room(&_, w);
         return *this;
