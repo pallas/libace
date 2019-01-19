@@ -93,7 +93,7 @@ public:
     haystack&
     shrink(::size_t s) {
         assert(s <= size());
-        obstack_blank(&_, -::ssize_t(s));
+        obstack_blank_fast(&_, -::ssize_t(s));
         return *this;
     }
 
