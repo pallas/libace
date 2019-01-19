@@ -17,7 +17,7 @@ public:
     haystack() { obstack_specify_allocation(&_, 0, 0, xmalloc, xfree); }
     ~haystack() { obstack_free(&_, NULL); }
 
-    bool empty() { return obstack_empty_p(&_); }
+    bool empty() const { return obstack_empty_p(&_); }
 
     long & chunk_size() { return obstack_chunk_size(&_); }
     int & alignment_mask() { return obstack_alignment_mask(&_); }
@@ -59,10 +59,10 @@ public:
     template <typename T>
     T* copy0(const T &t) { return reinterpret_cast<T*>(copy0(&t, sizeof(t))); }
 
-    void* base() { return obstack_base(&_); }
-    int size() { return obstack_object_size(&_); }
-    void* next() { return obstack_next_free(&_); }
-    int room() { return obstack_room(&_); }
+    void* base() const { return obstack_base(&_); }
+    int size() const { return obstack_object_size(&_); }
+    void* next() const { return obstack_next_free(&_); }
+    int room() const { return obstack_room(&_); }
 
     void* finish() { return obstack_finish(&_); }
     void abort() { obstack_free(&_, finish()); }
