@@ -21,6 +21,7 @@ set(${PROJECT_NAME}_HEADERS
 	named_error
 	pick
 	random
+	ropebuf
 	scoped
 	singleton
 	try
@@ -32,6 +33,7 @@ set(${PROJECT_NAME}_TESTS
 	test_hash
 	test_haystack
 	test_random
+	test_ropebuf
 	)
 
 foreach(header ${${PROJECT_NAME}_HEADERS})
