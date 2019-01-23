@@ -9,7 +9,9 @@
 
 namespace lace {
 
-template < typename _RopeT = __gnu_cxx::rope<char>
+typedef __gnu_cxx::rope<char> rope;
+
+template < typename _RopeT = rope
          , typename _Traits = std::char_traits<typename _RopeT::value_type>
          >
 class basic_ropebuf
