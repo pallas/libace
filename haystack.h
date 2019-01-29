@@ -69,7 +69,7 @@ public:
 
     char* string() {
         int s = size();
-        if (!s || reinterpret_cast<char*>(base())[s])
+        if (s <= 0 || reinterpret_cast<char*>(base())[s-1])
             zero();
         return reinterpret_cast<char*>(finish());
     }
