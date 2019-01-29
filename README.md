@@ -12,5 +12,6 @@ Includes
  * hash --- Generic hash template, implemented as 64-bit FNV-1a.
  * haystack -- Wrapper around obstack.
  * objectstack --- A haystack that understands destructors.
+ * ropebuf --- Glue between an SGI rope and std::streambuf.
  * singleton --- Singleton template, instantiates before main.
  * try --- Converts traditional error reporting to exceptions.
