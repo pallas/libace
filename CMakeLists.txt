@@ -19,6 +19,7 @@ set(${PROJECT_NAME}_HEADERS
 	hash
 	haystack
 	named_error
+	objectstack
 	pick
 	random
 	ropebuf
@@ -32,6 +33,7 @@ set(${PROJECT_NAME}_TESTS
 	test_divide
 	test_hash
 	test_haystack
+	test_objectstack
 	test_random
 	test_ropebuf
 	)
