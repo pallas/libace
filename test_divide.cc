@@ -7,21 +7,21 @@
 
 lace::random & rng = lace::singleton<lace::random>::instance();
 
-uint64_t r(unsigned i) {
-  uint64_t m = uint64_t(1) << i%64;
-  if (i<64)
+lace::divider::type_t r(unsigned i) {
+  lace::divider::type_t m = lace::divider::type_t(1) << i%lace::divider::type_bits;
+  if (i<lace::divider::type_bits)
       return m;
-  uint64_t x = rng.l() + (uint64_t(rng.l())<<32);
+  lace::divider::type_t x = rng.l() + (lace::divider::type_t(rng.l())<<(lace::divider::type_bits/2));
   return ((m-1) & x) | m;
 }
 
 int main(int, char*[]) {
     for (int i = 0 ; i < 1<<10 ; ++i) {
-      volatile uint64_t x = r(i);
+      volatile lace::divider::type_t x = r(i);
       lace::divider d(x);
       for (int j = 0 ; j < 1<<16 ; ++j) {
-          volatile uint64_t n = r(i);
-          volatile uint64_t q = true ? d.modulo(n, x) : n % x;
+          volatile lace::divider::type_t n = r(i);
+          volatile lace::divider::type_t q = true ? d.modulo(n, x) : n % x;
           assert(q == n % x);
       }
     }
