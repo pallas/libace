@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-#include <lace/do_not_copy.h>
+#include "do_not_copy.h"
 
 namespace lace {
 
