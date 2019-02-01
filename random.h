@@ -9,16 +9,22 @@
 #include <cstring>
 
 #include <unistd.h>
-#include <sys/random.h>
+
+#ifdef __linux__
+#include <sys/syscall.h>
+#include <linux/random.h>
+#endif
 
 namespace lace {
 
 class random {
 public:
     random(const char * file = NULL) {
+#ifdef SYS_getrandom
         if (!file)
-            if (!TRY_ERR(ENOSYS, getentropy, state, sizeof state))
+            if (!TRY_ERR(ENOSYS, syscall, SYS_getrandom, state, sizeof state, 0))
                 return;
+#endif
 
         scoped<FILE, int, ::fclose> fd(TRY_PTR(fopen, pick(file, "/dev/urandom"), "rb"));
         TRY(fread, state, sizeof state, 1, fd);
