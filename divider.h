@@ -10,7 +10,7 @@ namespace lace {
 
 class divider {
 public:
-    typedef uint8_t bits_t;
+    typedef uint_fast8_t bits_t;
 #ifdef __SIZEOF_INT128__
     typedef uint64_t type_t;
     typedef __uint128_t type_type_t;
