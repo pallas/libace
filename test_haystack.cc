@@ -39,6 +39,7 @@ int main(int, char*[]) {
       ;
   os.clear();
 
+  os.pointer("xyzzy").finish();
   const char evil[] = "'\0'";
   std::cout << expect("\"'\"", os.quote(evil, sizeof(evil)).string()) << std::endl;
   os.clear();
