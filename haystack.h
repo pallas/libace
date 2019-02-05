@@ -117,7 +117,7 @@ public:
 
     haystack& pad(::size_t s) { blank(s); return *this; }
     haystack& zero() { return grow('\0'); }
-    haystack& pointer(void* p) { obstack_ptr_grow(&_, p); return *this; }
+    haystack& pointer(const void* p) { obstack_ptr_grow(&_, p); return *this; }
 
     haystack&
     grow0(void* a, ::size_t s) {
