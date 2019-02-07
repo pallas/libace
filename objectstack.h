@@ -49,10 +49,9 @@ public:
         hs.deallocate(old);
     }
 
-    ~objectstack() {
-        while (!empty())
-            unwind();
-    }
+    void clear() { while (!empty()) unwind(); }
+
+    ~objectstack() { clear(); }
 
 private:
     lace::haystack hs;
