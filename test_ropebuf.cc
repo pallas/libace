@@ -11,11 +11,8 @@ int main(int, char*[]) {
         os << c << ' ';
 
     auto &r = rs.rope();
-    r.dump();
     r.append(42, '*');
-    r.dump();
     r.balance();
-    r.dump();
 
     std::istream is(&rs);
     std::string s;
