@@ -13,6 +13,7 @@ public:
     scoped(T* _) : p(_) { }
     ~scoped() { if (p) D(p); }
 
+    T* get() const { return p; }
     operator T* () const { return p; }
     T* operator->() const { return p; }
 
