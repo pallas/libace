@@ -36,7 +36,15 @@ public:
         memcpy(&state.seed, &seed, sizeof state.seed);
     }
 
-    bool b() { return l() >= 0; }
+    bool b() {
+        uint32_t c = u32();
+        c = (c & 0x55555555UL) + ((c>> 1) & 0x55555555UL);
+        c = (c & 0x33333333UL) + ((c>> 2) & 0x33333333UL);
+        c = (c & 0x0f0f0f0fUL) + ((c>> 4) & 0x0f0f0f0fUL);
+        c = (c & 0x00ff00ffUL) + ((c>> 8) & 0x00ff00ffUL);
+        c = (c & 0x0000ffffUL) + ((c>>16) & 0x0000ffffUL);
+        return c & 0x1;
+    }
 
     int32_t i32() { return (int32_t)u32(); }
     uint32_t u32() { return (uint32_t)r(); }
