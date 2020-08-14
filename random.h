@@ -32,8 +32,12 @@ public:
     }
 
     typedef uint64_t seed_t;
-    random(const seed_t seed) {
-        memcpy(&state.seed, &seed, sizeof state.seed);
+    random(const seed_t seed) { reset(seed); }
+
+    random & reset(const seed_t seed) {
+        state.seed = seed;
+        state.weyl = 0;
+        return *this;
     }
 
     bool b() {
