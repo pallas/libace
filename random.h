@@ -74,7 +74,7 @@ private:
     template <uint64_t STEP = 0xb5ad4eceda1ce2a9ULL>
     uint64_t r() {
         state.seed *= state.seed;
-        state.weyl += STEP;
+        state.weyl += STEP | 0x1;
         state.seed += state.weyl;
         state.seed = (state.seed << 32) | (state.seed >> 32);
         return state.seed;
