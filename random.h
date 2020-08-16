@@ -50,11 +50,11 @@ public:
         return c & 0x1;
     }
 
-    int32_t i32() { return (int32_t)u32(); }
-    uint32_t u32() { return (uint32_t)r(); }
+    int32_t i32() { return int32_t(u32()); }
+    uint32_t u32() { return uint32_t(r()); }
 
-    int64_t i64() { return (int64_t)u64(); }
-    uint64_t u64() { return (r()<<32) | (r()>>32); }
+    int64_t i64() { return int64_t(u64()); }
+    uint64_t u64() { return (uint64_t(r())<<32) | (uint64_t(r())<<0); }
 
     long l() { return (long)ul(); }
     unsigned long ul() {
@@ -72,12 +72,12 @@ private:
     } state;
 
     template <uint64_t STEP = 0xb5ad4eceda1ce2a9ULL>
-    uint64_t r() {
+    uint32_t r() {
         state.seed *= state.seed;
         state.weyl += STEP | 0x1;
         state.seed += state.weyl;
         state.seed = (state.seed << 32) | (state.seed >> 32);
-        return state.seed;
+        return uint32_t(state.seed);
     }
 };
 
