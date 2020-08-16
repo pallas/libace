@@ -10,24 +10,24 @@ struct x {
 };
 
 struct A {
-  A() : c(new char) { std::cerr << "+A" << std::endl; }
-  virtual ~A() { std::cerr << "-A" << std::endl; delete c; }
+  A() : c(new char) { std::cerr << "+A " << this << std::endl; }
+  virtual ~A() { std::cerr << "-A " << this << std::endl; delete c; }
   char * c;
 };
 
 struct B : virtual public A {
-  B() { std::cerr << "+B" << std::endl; }
-  virtual ~B() { std::cerr << "-B" << std::endl; }
+  B() { std::cerr << "+B " << this << std::endl; }
+  virtual ~B() { std::cerr << "-B " << this << std::endl; }
 };
 
 struct C : virtual public A {
-  C() { std::cerr << "+C" << std::endl; }
-  virtual ~C() { std::cerr << "-C" << std::endl; }
+  C() { std::cerr << "+C " << this << std::endl; }
+  virtual ~C() { std::cerr << "-C " << this << std::endl; }
 };
 
 struct D : virtual public B, virtual public C {
-  D(int ii = 0) : i(ii) { std::cerr << "+D" << std::endl; }
-  virtual ~D() { std::cerr << "-D" << std::endl; }
+  D(int ii = 0) : i(ii) { std::cerr << "+D " << this << std::endl; }
+  virtual ~D() { std::cerr << "-D " << this << std::endl; }
   int i;
 };
 
