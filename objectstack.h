@@ -30,7 +30,7 @@ public:
 
         w->link = last;
         w->destructor = !std::is_trivially_destructible<T>::value
-                      ? objectstack::destroy<T> : NULL;
+                      ? &objectstack::destroy<T> : NULL;
 
         last = w;
         return &w->t;
