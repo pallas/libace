@@ -11,6 +11,10 @@ endif()
 project(libace)
 add_library(libace INTERFACE)
 
+set(${PROJECT_NAME}_EXECUTABLES
+	deal
+	)
+
 set(${PROJECT_NAME}_HEADERS
 	compare
 	container_of
@@ -37,6 +41,11 @@ set(${PROJECT_NAME}_TESTS
 	test_random
 	test_ropebuf
 	)
+
+foreach(executable ${${PROJECT_NAME}_EXECUTABLES})
+	add_executable(${executable} ${executable}.cc)
+	install(TARGETS ${executable} RUNTIME DESTINATION bin)
+endforeach(executable)
 
 foreach(header ${${PROJECT_NAME}_HEADERS})
 	install(FILES ${header}.h DESTINATION "include/lace")
