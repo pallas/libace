@@ -12,7 +12,12 @@ int main(int, char*[]) {
 
     auto &r = rs.rope();
     r.append(42, '*');
+
+    r.dump();
     r.balance();
+    r.dump();
+
+    std::cout << '?' << rs.string(20) << '?' << std::endl;
 
     std::istream is(&rs);
     std::string s;
