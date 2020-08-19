@@ -134,8 +134,13 @@ public:
     printf(const char *f, ...) __attribute__ ((format (printf, 2, 3))) {
         va_list a;
         va_start(a, f);
-        TRY(obstack_vprintf, &_, f, a);
-        va_end(a);
+        try {
+            TRY(obstack_vprintf, &_, f, a);
+            va_end(a);
+        } catch(...) {
+            va_end(a);
+            throw;
+        }
         return *this;
     }
 
