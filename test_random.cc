@@ -119,5 +119,61 @@ int main(int, char*[]) {
       << std::endl;
   }}
 
+  {{
+    welford<> w;
+    const int n = 1<<20;
+    for (int i = 0 ; i < n ; ++i)
+      w << rng.g(0,1);
+
+    std::cout << "g(0,1)"
+      << ",\t mean=" << w.mean()
+      << ",\t variance=" << w.variance()
+      << ",\t deviation=" << w.deviation()
+      << ",\t error=" << w.error()
+      << std::endl;
+  }}
+
+  {{
+    welford<> w;
+    const int n = 1<<20;
+    for (int i = 0 ; i < n ; ++i)
+      w << rng.g(1,3);
+
+    std::cout << "g(1,3)"
+      << ",\t mean=" << w.mean()
+      << ",\t variance=" << w.variance()
+      << ",\t deviation=" << w.deviation()
+      << ",\t error=" << w.error()
+      << std::endl;
+  }}
+
+  {{
+    welford<> w;
+    const int n = 1<<20;
+    for (int i = 0 ; i < n ; ++i)
+      w << rng.g(2,7);
+
+    std::cout << "g(2,7)"
+      << ",\t mean=" << w.mean()
+      << ",\t variance=" << w.variance()
+      << ",\t deviation=" << w.deviation()
+      << ",\t error=" << w.error()
+      << std::endl;
+  }}
+
+  {{
+    welford<> w;
+    const int n = 1<<20;
+    for (int i = 0 ; i < n ; ++i)
+      w << rng.gg(4,15);
+
+    std::cout << "gg(4,15)"
+      << ",\t mean=" << w.mean()
+      << ",\t variance=" << w.variance()
+      << ",\t deviation=" << w.deviation()
+      << ",\t error=" << w.error()
+      << std::endl;
+  }}
+
   return EXIT_SUCCESS;
 }
