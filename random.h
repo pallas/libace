@@ -75,7 +75,7 @@ public:
         }
     }
 
-    float f() { return float(u32()>>8)/double(UINT32_MAX>>8); }
+    float f() { return float(u32()>>8)/float(UINT32_MAX>>8); }
     double d() { return double(u64()>>11)/double(UINT64_MAX>>11); }
 
 private:
