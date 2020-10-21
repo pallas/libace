@@ -130,6 +130,7 @@ int main(int, char*[]) {
       << ",\t variance=" << w.variance()
       << ",\t deviation=" << w.deviation()
       << ",\t error=" << w.error()
+      << ",\t t-test=" << w.gosset(0)
       << std::endl;
   }}
 
@@ -144,6 +145,7 @@ int main(int, char*[]) {
       << ",\t variance=" << w.variance()
       << ",\t deviation=" << w.deviation()
       << ",\t error=" << w.error()
+      << ",\t t-test=" << w.gosset(1)
       << std::endl;
   }}
 
@@ -158,6 +160,7 @@ int main(int, char*[]) {
       << ",\t variance=" << w.variance()
       << ",\t deviation=" << w.deviation()
       << ",\t error=" << w.error()
+      << ",\t t-test=" << w.gosset(2)
       << std::endl;
   }}
 
@@ -172,6 +175,7 @@ int main(int, char*[]) {
       << ",\t variance=" << w.variance()
       << ",\t deviation=" << w.deviation()
       << ",\t error=" << w.error()
+      << ",\t t-test=" << w.gosset(4)
       << std::endl;
   }}
 
