@@ -101,7 +101,7 @@ public:
           xxyy = uint64_t(int64_t(x)*int64_t(x) + int64_t(y)*int64_t(y))>>38;
         } while (xxyy == 0 || xxyy > mm); // stop when inside the unit circle
 
-        float s = float(xxyy)/float(mm); assert(s > 0.0);
+        float s = float(xxyy)/float(mm); assert(s > 0.0f);
         float u = float(x/(1<<7))/float(INT32_MAX/(1<<7)); // 31 significant bits, into
         //float v = float(y/(1<<7))/float(INT32_MAX/(1<<7));
         float w = M_SQRT2 * std::sqrt(-std::log(s) / s);
