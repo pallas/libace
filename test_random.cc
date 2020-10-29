@@ -179,5 +179,20 @@ int main(int, char*[]) {
       << std::endl;
   }}
 
+  for (int d = 1 ; d <= 20 ; ++d)
+  {{
+    welford<> w;
+    const int n = 1<<20;
+    for (int i = 0 ; i < n ; ++i)
+      w << rng.roll(d) + 1;
+    std::cout << "d" << d
+      << ",\t mean=" << w.mean()
+      << ",\t variance=" << w.variance()
+      << ",\t deviation=" << w.deviation()
+      << ",\t error=" << w.error()
+      << ",\t t-test=" << w.gosset(float(d+1)/2.0f)
+      << std::endl;
+  }}
+
   return EXIT_SUCCESS;
 }
