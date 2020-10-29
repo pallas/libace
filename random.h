@@ -69,12 +69,12 @@ public:
         if (0 == (bound & (bound-1)))
             return ul() & (bound-1);
 
+        unsigned long value;
         const unsigned long minimum = -bound % bound;
-        while (true) {
-            unsigned long value = ul();
-            if (value >= minimum)
-                return value % bound;
-        }
+        do {
+            value = ul();
+        } while (value < minimum);
+        return value % bound;
     }
 
     float f() { return float(u32()>>8)/float(UINT32_MAX>>8); }
