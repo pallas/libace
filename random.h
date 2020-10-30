@@ -65,14 +65,14 @@ public:
              : (__builtin_unreachable(), 0);
     }
 
-    unsigned long roll(const unsigned long bound) {
+    uint32_t roll(const uint32_t bound) {
         if (0 == (bound & (bound-1)))
-            return ul() & (bound-1);
+            return u32() & (bound-1);
 
-        unsigned long value;
-        const unsigned long minimum = -bound % bound;
+        uint32_t value;
+        const uint32_t minimum = -bound % bound;
         do {
-            value = ul();
+            value = u32();
         } while (value < minimum);
         return value % bound;
     }
