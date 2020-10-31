@@ -52,6 +52,18 @@ public:
         return c & 0x1;
     }
 
+    int8_t i8() { return int8_t(u8()); }
+    uint8_t u8() {
+        uint16_t c = u16();
+        return c ^= c>>8;
+    }
+
+    int16_t i16() { return int16_t(u16()); }
+    uint16_t u16() {
+        uint32_t c = u32();
+        return c ^= c>>16;
+    }
+
     int32_t i32() { return int32_t(u32()); }
     uint32_t u32() { return uint32_t(r()); }
 
