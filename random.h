@@ -85,7 +85,7 @@ public:
         if (uint32_t(value) >= bound)
             return uint32_t(value >> 32);
 
-        const uint32_t minimum = -bound % bound;
+        const uint32_t minimum = uint32_t(-int32_t(bound)) % bound;
         while (uint32_t(value) < minimum)
             value = uint64_t(u32()) * uint64_t(bound);
 
