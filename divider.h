@@ -23,6 +23,8 @@ public:
     divider(type_t d = 1) { invert(d); }
 
     void invert(type_t d) {
+        magic_number = 0;
+
         if (0 == d) {
             method = &divider::zero;
             return;
