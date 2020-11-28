@@ -30,6 +30,7 @@ set(${PROJECT_NAME}_HEADERS
 	scoped
 	singleton
 	try
+	welford
 	)
 
 set(${PROJECT_NAME}_TESTS
