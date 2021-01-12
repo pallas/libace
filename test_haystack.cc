@@ -29,8 +29,8 @@ int main(int, char*[]) {
   os.clear();
 
   std::cout
-      << expect("\"'\"\"'\"'\"\"'\"'\"\"'\"", os.quote("''\"\"''").string()) << std::endl
-      << expect("'\"\"'\"'\"\"'\"'\"\"'", os.quote("\"\"''\"\"").string()) << std::endl
+      << expect("\"''\"'\"\"'\"''\"", os.quote("''\"\"''").string()) << std::endl
+      << expect("'\"\"'\"''\"'\"\"'", os.quote("\"\"''\"\"").string()) << std::endl
       << expect("\"'\"'\"'\"'\"", os.quote("'\"'").string()) << std::endl
       << expect("'\"'\"'\"'\"'", os.quote("\"'\"").string()) << std::endl
       << expect("\"'\"", os.quote("'").string()) << std::endl

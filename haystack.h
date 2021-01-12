@@ -162,28 +162,40 @@ public:
 
     haystack&
     quote(const char *s, ::size_t l) {
-        while (l > 0) {
+
+        ::size_t i = 0;
+        ::size_t w = 0;
+
+        while (i < l && s[i]) {
+            if (::size_t o = strcspn(&s[i], "'")) {
+                w += 2;
+                i += o;
+            }
+            if (::size_t o = strspn(&s[i], "'")) {
+                w += 2;
+                i += o;
+            }
+        }
+        want(w + i);
+
+        while (i > 0) {
             if (::size_t o = strcspn(s, "'")) {
-                want(l + 2 + 3);
                 assert(room() >= o + 2);
                 obstack_1grow_fast(&_, '\'');
                 memcpy(next(), s, o);
                 obstack_blank_fast(&_, o);
                 obstack_1grow_fast(&_, '\'');
+                i -= o;
                 s += o;
-                l -= o;
-            } else {
-                want(l + 3);
             }
-            if (l && *s) {
-                assert(room() >= 3);
+            if (::size_t o = strspn(s, "'")) {
+                assert(room() >= o + 2);
                 obstack_1grow_fast(&_, '"');
-                obstack_1grow_fast(&_, *s);
+                memcpy(next(), s, o);
+                obstack_blank_fast(&_, o);
                 obstack_1grow_fast(&_, '"');
-                s += 1;
-                l -= 1;
-            } else {
-                break;
+                i -= o;
+                s += o;
             }
         }
         return *this;
