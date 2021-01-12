@@ -35,7 +35,7 @@ int main(int, char*[]) {
       << expect("'\"'\"'\"'\"'", os.quote("\"'\"").string()) << std::endl
       << expect("\"'\"", os.quote("'").string()) << std::endl
       << expect("'\"'", os.quote("\"").string()) << std::endl
-      << expect("", os.quote("").string()) << std::endl
+      << expect("''", os.quote("").string()) << std::endl
       ;
   os.clear();
 

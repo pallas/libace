@@ -162,6 +162,8 @@ public:
 
     haystack&
     quote(const char *s, ::size_t l) {
+        if (!l || !*s)
+            return append("''");
 
         ::size_t i = 0;
         ::size_t w = 0;
