@@ -19,10 +19,8 @@ public:
         if (!w)
             return NULL;
 
-        w->that = &w->t;
-
         try {
-            new (w->that) T(std::forward<As&&>(as)...);
+            new (&w->t) T(std::forward<As&&>(as)...);
         } catch(...) {
             hs.deallocate(w);
             throw;
@@ -44,7 +42,7 @@ public:
         last = old->link;
 
         if (old->destructor)
-            old->destructor(old->that);
+            old->destructor(reinterpret_cast<void*>(old));
 
         hs.deallocate(old);
     }
@@ -59,12 +57,11 @@ private:
     struct linkage {
         linkage * link;
         void (*destructor)(void *);
-        void * that;
     };
     linkage * last;
 
     template <typename T> struct wrapper : public linkage { T t; };
-    template <typename T> static void destroy(void* t) { reinterpret_cast<T*>(t)->~T(); }
+    template <typename T> static void destroy(void* w) { reinterpret_cast<wrapper<T>*>(w)->t.~T(); }
 };
 
 } // namespace lace
