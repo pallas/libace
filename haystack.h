@@ -150,6 +150,14 @@ public:
         return *this;
     }
 
+    haystack& append(const char *s) { return append(s, strlen(s)); }
+
+    haystack&
+    append(const char *s, ::size_t l) {
+        memcpy(blank(l), s, l);
+        return *this;
+    }
+
     haystack& quote(const char *s) { return quote(s, strlen(s)); }
 
     haystack&
