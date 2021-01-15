@@ -21,13 +21,11 @@ public:
 
     long & chunk_size() { return obstack_chunk_size(&_); }
     int & alignment_mask() { return obstack_alignment_mask(&_); }
+    int const & alignment_mask() const { return obstack_alignment_mask(&_); }
     int memory_used() { return obstack_memory_used(&_); }
 
-    ::size_t alignment() {
-        int a = alignment_mask() + 1;
-        assert(0 == (a & (a-1)));
-        return a;
-    }
+    template <typename T> void align() { alignment_mask() = alignof_mask<T>(); }
+    template <typename T> bool aligned() const { return alignof_mask<T>() == (alignment_mask() & alignof_mask<T>()); }
 
     void clear() {
         long cs = chunk_size();
@@ -40,7 +38,7 @@ public:
 
     template <typename T>
     T* allocate() {
-        assert(alignof(T) <= alignment());
+        assert(aligned<T>());
         return reinterpret_cast<T*>(allocate(sizeof(T)));
     }
 
@@ -50,7 +48,7 @@ public:
 
     template <typename T>
     T* copy(const T &t) {
-        assert(alignof(T) <= alignment());
+        assert(aligned<T>());
         return reinterpret_cast<T*>(copy(&t, sizeof(t)));
     }
 
@@ -86,7 +84,7 @@ public:
 
     template <typename T>
     T* blank() {
-        assert(alignof(T) <= alignment());
+        assert(aligned<T>());
         return reinterpret_cast<T*>(blank(sizeof(T)));
     }
 
@@ -207,6 +205,8 @@ private:
     struct ::obstack _;
     static void * xmalloc(::size_t s) { return operator new(s); }
     static void xfree(void* p) { operator delete(p); }
+
+    template <typename T> static ::size_t alignof_mask() { return (1<<(alignof(T)-1))-1; }
 };
 
 } // namespace lace
