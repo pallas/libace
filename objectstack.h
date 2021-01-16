@@ -15,6 +15,7 @@ public:
 
     template <typename T, typename ...As>
     T* make(As&&... as) {
+        hs.align<wrapper<T>>();
         auto w = hs.allocate<wrapper<T>>();
         if (!w)
             return NULL;
