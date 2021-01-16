@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <cassert>
+#include <utility>
 
 #include <obstack.h>
 
@@ -40,6 +41,19 @@ public:
     T* allocate() {
         assert(aligned<T>());
         return reinterpret_cast<T*>(allocate(sizeof(T)));
+    }
+
+    template <typename T, typename ...As>
+    T* make(As&&... as) {
+        align<T>();
+        auto t = allocate<T>();
+        if (t) try {
+            new (t) T(std::forward<As&&>(as)...);
+        } catch(...) {
+            deallocate(t);
+            throw;
+        }
+        return t;
     }
 
     void deallocate(void* p) { return obstack_free(&_, p); }
