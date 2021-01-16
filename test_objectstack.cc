@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <exception>
+#include <string>
 
 #include "objectstack.h"
 
@@ -50,6 +51,7 @@ int main(int, char*[]) {
   auto b = os.make<B>();
   auto a = os.make<A>();
   auto x0 = os.make<x>();
+  std::cerr << *os.make<std::string>() << std::endl;
 
   return EXIT_SUCCESS;
 }

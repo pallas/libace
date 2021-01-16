@@ -15,17 +15,9 @@ public:
 
     template <typename T, typename ...As>
     T* make(As&&... as) {
-        hs.align<wrapper<T>>();
-        auto w = hs.allocate<wrapper<T>>();
+        auto w = hs.make<wrapper<T>>(std::forward<As&&>(as)...);
         if (!w)
             return NULL;
-
-        try {
-            new (&w->t) T(std::forward<As&&>(as)...);
-        } catch(...) {
-            hs.deallocate(w);
-            throw;
-        }
 
         w->link = last;
         w->destructor = !std::is_trivially_destructible<T>::value
@@ -61,7 +53,10 @@ private:
     };
     linkage * last;
 
-    template <typename T> struct wrapper : public linkage { T t; };
+    template <typename T> struct wrapper : public linkage {
+        template <typename ...As> wrapper(As&&... as) : t(std::forward<As&&>(as)...) { }
+        T t;
+    };
     template <typename T> static void destroy(void* w) { reinterpret_cast<wrapper<T>*>(w)->t.~T(); }
 };
 
