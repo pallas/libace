@@ -5,6 +5,7 @@
 #include "haystack.h"
 
 #include <cassert>
+#include <utility>
 #include <type_traits>
 
 namespace lace {
